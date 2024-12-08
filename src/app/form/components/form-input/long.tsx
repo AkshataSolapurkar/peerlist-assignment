@@ -5,7 +5,7 @@ export const LongInput: React.FC<React.TextareaHTMLAttributes<HTMLTextAreaElemen
 
   return (
     <textarea
-      className={`w-full min-h-[100px] bg-[#F6F8FA] rounded-md px-3 py-2 text-sm border-0 focus:outline-none ${
+      className={`w-full min-h-[100px] shadow-custom-light focus:shadow-custom-heavy hover:shadow-custom-heavy  border-[#E1E4E8] border bg-white rounded-md  py-2 text-sm px-3 focus:outline-none ${
         hasContent ? 'text-black' : 'text-gray-500'
       }`}
       placeholder=""

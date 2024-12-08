@@ -11,6 +11,8 @@ export default {
   	extend: {
       boxShadow: {
         custom: '0px 3px 3px -1.5px #00000008, 0px 1px 1px -0.5px #00000008',
+		'custom-light': '0px 1px 1px -0.5px #00000008',
+        'custom-heavy': '0px 3px 3px -1.5px #00000008',
       },
   		colors: {
   			background: 'hsl(var(--background))',

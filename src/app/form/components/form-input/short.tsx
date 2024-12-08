@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export const ShortInput: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = (props) => {
   const [hasContent, setHasContent] = useState(false);
@@ -6,9 +6,9 @@ export const ShortInput: React.FC<React.InputHTMLAttributes<HTMLInputElement>> =
   return (
     <input
       type="text"
-      className={`w-full bg-[#F6F8FA] rounded-md px-3 py-2 text-sm border-0 focus:outline-none ${
-        hasContent ? 'text-black' : 'text-gray-500'
-      }`}
+      className={`w-full rounded-[8px] px-3 py-2 text-sm shadow-custom-light focus:shadow-custom-heavy hover:shadow-custom-heavy focus:outline-none border-[#E1E4E8] border
+        ${hasContent ? "bg-white shadow-[0px_3px_3px_-1.5px_#00000008,_0px_1px_1px_-0.5px_#00000008] " : "bg-white border-[#E1E4E8] border text-gray-500"}
+      `}
       placeholder=""
       onChange={(e) => {
         setHasContent(e.target.value.length > 0);
@@ -18,4 +18,3 @@ export const ShortInput: React.FC<React.InputHTMLAttributes<HTMLInputElement>> =
     />
   );
 };
-

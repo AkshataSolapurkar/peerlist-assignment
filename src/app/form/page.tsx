@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { QuestionTypeDropdown } from "./components/drowpdown";
 import { InputField } from "./components/input-field";
@@ -21,16 +21,22 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Question {
   id: string;
-  type: string;
+  type: "short" | "long" | "select" | "date" | "url";
   text: string;
+  helpText?: string;
+  value?: string | string[];
+  options?: { id: string; text: string }[];
 }
 
 export default function Page() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [title, setTitle] = useState<string>("");
+  const router = useRouter();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -39,8 +45,46 @@ export default function Page() {
     })
   );
 
-  const handleAddQuestion = (type: string) => {
-    setQuestions([...questions, { id: `question-${Date.now()}`, type, text: "" }]);
+
+  useEffect(() => {
+    const savedTitle = localStorage.getItem('formTitle');
+    const savedQuestions = localStorage.getItem('formQuestions');
+
+    if (savedTitle) {
+      setTitle(savedTitle);
+    }
+
+    if (savedQuestions) {
+      try {
+        const parsedQuestions = JSON.parse(savedQuestions);
+        setQuestions(parsedQuestions);
+      } catch (error) {
+        console.error("Error parsing saved questions:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (title) {
+      localStorage.setItem('formTitle', title);
+    }
+
+    if (questions.length > 0) {
+      localStorage.setItem('formQuestions', JSON.stringify(questions));
+    }
+  }, [title, questions]);
+
+  const handleAddQuestion = (type: Question['type']) => {
+    setQuestions([
+      ...questions, 
+      { 
+        id: `question-${Date.now()}`, 
+        type, 
+        text: "",
+        helpText: undefined,
+        value: "",
+      }
+    ]);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -55,25 +99,61 @@ export default function Page() {
     }
   };
 
-  const handleQuestionTextChange = (id: string, newText: string) => {
+  const handleQuestionUpdate = (updatedQuestion: Question) => {
     setQuestions((prevQuestions) =>
-      prevQuestions.map((q) => (q.id === id ? { ...q, text: newText } : q))
+      prevQuestions.map((q) => 
+        q.id === updatedQuestion.id ? updatedQuestion : q
+      )
     );
   };
 
-  const handleQuestionTypeChange = (id: string, newType: string) => {
+  const handleQuestionTypeChange = (id: string, newType: Question['type']) => {
     setQuestions((prevQuestions) =>
-      prevQuestions.map((q) => (q.id === id ? { ...q, type: newType } : q))
+      prevQuestions.map((q) => 
+        q.id === id 
+          ? { 
+              ...q, 
+              type: newType, 
+              value: "", 
+              options: newType === 'select' 
+                ? [{ id: '1', text: '' }, { id: '2', text: '' }] 
+                : undefined 
+            } 
+          : q
+      )
     );
   };
 
-  // Preview button state
+  const handleSaveAsDraft = () => {
+
+    localStorage.setItem('formDraft', JSON.stringify({
+      title,
+      questions
+    }));
+  };
+
+  const handlePublish = () => {
+
+    if (title.trim() === "") {
+      alert("Please add a title to your form");
+      return;
+    }
+
+    if (questions.length === 0) {
+      alert("Please add at least one question to your form");
+      return;
+    }
+
+
+    router.push('/form/publish');
+  };
+
   const isPreviewEnabled = questions.length > 0;
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF]">
+    <div className=" bg-[#FFFFFF]">
       <div className="container mx-auto border border-[#E1E4E8] max-w-[640px]">
-        <div className="bg-white rounded-lg min-h-screen flex flex-col">
+        <div className="bg-white rounded-lg overflow-hidden h-screen flex flex-col">
           {/* Header */}
           <div className="px-6 flex justify-between items-center border-b w-full">
             <div className="w-full">
@@ -103,7 +183,7 @@ export default function Page() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 px-6 py-6">
+          <div className="flex-1 h-screen scrollbar-none overflow-y-auto px-6 py-6">
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -116,13 +196,11 @@ export default function Page() {
                       key={question.id}
                       id={question.id}
                       type={question.type}
-                      questionText={question.text}
-                      onQuestionTextChange={(newText) =>
-                        handleQuestionTextChange(question.id, newText)
+                      initialData={question}
+                      onQuestionTypeChange={(newType) => 
+                        handleQuestionTypeChange(question.id, newType as Question['type'])
                       }
-                      onQuestionTypeChange={(newType) =>
-                        handleQuestionTypeChange(question.id, newType)
-                      }
+                      onQuestionUpdate={handleQuestionUpdate}
                     />
                   ))}
                 </div>
@@ -137,7 +215,8 @@ export default function Page() {
           {/* Footer */}
           <div className="px-6 py-[16px] border-t bg-[#F6F8FAE5] flex justify-between items-center">
             <Button
-              className={`"flex gap-1 items-center rounded-[12px] border border-[#959DA5] bg-white py-[6px] px-[16px]" ${
+              onClick={handleSaveAsDraft}
+              className={`flex gap-1 items-center rounded-[12px] border border-[#959DA5] bg-white py-[6px] px-[16px] ${
                 isPreviewEnabled
                   ? "bg-white text-black border-[#E1E4E8] text-[14px]"
                   : "bg-white text-[#959DA5] border-[#E1E4E8] cursor-not-allowed text-[14px]"
@@ -146,12 +225,16 @@ export default function Page() {
             >
               <SquarePen className="w-[5px] h-[5px]" /> Save as draft
             </Button>
-            <Button className={`" rounded-[12px] flex items-center gap-1 text-white bg-[#00AA45] text-[14px] py-[6px] px-[16px]" ${isPreviewEnabled
+            <Button 
+              onClick={handlePublish}
+              className={`rounded-[12px] flex items-center gap-1 text-white bg-[#00AA45] text-[14px] py-[6px] px-[16px] ${
+                isPreviewEnabled
                   ? "opacity-100"
                   : "opacity-50"
               }`}
-              disabled={!isPreviewEnabled}>
-            <Check className="w-[10] h-[6] text-white" />
+              disabled={!isPreviewEnabled}
+            >
+              <Check className="w-[10] h-[6] text-white" />
               Publish
             </Button>
           </div>

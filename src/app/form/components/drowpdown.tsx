@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Plus, Type, AlignLeft, CircleDot, Link2, Hash } from 'lucide-react'
+import { Plus, Type, AlignLeft, CircleDot, Link2, Hash, Calendar } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 interface QuestionTypeDropdownProps {
@@ -22,7 +22,7 @@ export function QuestionTypeDropdown({ onSelect, className }: QuestionTypeDropdo
     { label: "Long answer", icon: AlignLeft, type: "long" },
     { label: "Single select", icon: CircleDot, type: "select" },
     { label: "URL", icon: Link2, type: "url" },
-    { label: "Number", icon: Hash, type: "number" },
+    { label: "Date", icon: Calendar, type: "date" },
   ]
 
   return (

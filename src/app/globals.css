@@ -70,3 +70,12 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.scrollbar-none {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Ensure no scrollbar is shown */
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
