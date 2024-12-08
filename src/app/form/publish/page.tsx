@@ -5,6 +5,7 @@ import { ShortInput } from "../components/form-input/short";
 import { LongInput } from "../components/form-input/long";
 import { UrlInput } from "../components/form-input/url";
 import { NumberInput } from "../components/form-input/number";
+import { toast, Toaster } from "react-hot-toast";
 
 interface Question {
   id: string;
@@ -19,6 +20,27 @@ export default function PublishPage() {
   const [title, setTitle] = useState<string>("Submit Form");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [filledQuestions, setFilledQuestions] = useState<number>(0);
+  const [unattemptedQuestions, setUnattemptedQuestions] = useState<string[]>(
+    []
+  );
+
+  // Validate fields on submit
+  const handleSubmit = () => {
+    const missingFields = questions
+      .filter(
+        (question) =>
+          !question.value || (Array.isArray(question.value) && !question.value.length)
+      )
+      .map((question) => question.id);
+
+    if (missingFields.length > 0) {
+      setUnattemptedQuestions(missingFields); 
+      toast.error("Please fill all the required fields.");
+    } else {
+      setUnattemptedQuestions([]); 
+      toast.success("Form submitted successfully!");
+    }
+  };
 
   useEffect(() => {
     const storedFormData = localStorage.getItem("formQuestions");
@@ -161,9 +183,15 @@ export default function PublishPage() {
               <div className="space-y-6 mb-[32px]">
                 {questions.map((question) => (
                   <div key={question.id} className="gap-[4px] flex flex-col">
-                    <label className="text-sm font-semibold text-black">
-                      {question.question}
-                    </label>
+                    <div
+                        className={`text-sm font-semibold text-[14px] ${
+                          unattemptedQuestions.includes(question.id)
+                            ? "text-red-500"
+                            : "text-black"
+                        }`}
+                      >
+                        {question.question}
+                      </div>
                     {question.helpText && (
                       <div className="text-sm text-gray-500">
                         {question.helpText}
@@ -177,7 +205,7 @@ export default function PublishPage() {
             <div className="flex justify-end mt-[40px] w-full">
               <button
                 className="bg-[#00AA45] text-white py-2 px-6 rounded-md text-sm font-semibold"
-                disabled={progress < 100}
+                onClick={handleSubmit}
               >
                 Submit
               </button>
