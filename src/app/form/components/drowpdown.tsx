@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Plus, Type, AlignLeft, CircleDot, Link2, Calendar } from 'lucide-react'
+import { Plus, Type, AlignLeft, CircleDot, Link2, Hash } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 interface QuestionTypeDropdownProps {
@@ -18,11 +18,11 @@ interface QuestionTypeDropdownProps {
 
 export function QuestionTypeDropdown({ onSelect, className }: QuestionTypeDropdownProps) {
   const questionTypes = [
-    { label: "Short answer", icon: Type },
-    { label: "Long answer", icon: AlignLeft },
-    { label: "Single select", icon: CircleDot },
-    { label: "URL", icon: Link2 },
-    { label: "Date", icon: Calendar },
+    { label: "Short answer", icon: Type, type: "short" },
+    { label: "Long answer", icon: AlignLeft, type: "long" },
+    { label: "Single select", icon: CircleDot, type: "select" },
+    { label: "URL", icon: Link2, type: "url" },
+    { label: "Number", icon: Hash, type: "number" },
   ]
 
   return (
@@ -30,19 +30,19 @@ export function QuestionTypeDropdown({ onSelect, className }: QuestionTypeDropdo
       <DropdownMenuTrigger asChild>
         <Button
           className={cn(
-            "border-1 text-black bg-white shadow-custom border border-[#E1E4E8] py-[8px] px-[14px] gap-2",
+            "border-1 rounded-[12px] text-black bg-white shadow-custom border border-[#E1E4E8] py-[8px] px-[14px] gap-2",
             className
           )}
         >
           <Plus className="h-4 w-4" />
-          Add question
+          Add question                 
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="w-56">
         {questionTypes.map((type) => (
           <DropdownMenuItem
             key={type.label}
-            onClick={() => onSelect(type.label)}
+            onClick={() => onSelect(type.type)}
             className="gap-2"
           >
             <type.icon className="h-4 w-4" />
