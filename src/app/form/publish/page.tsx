@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ShortInput } from "../components/form-input/short";
 import { LongInput } from "../components/form-input/long";
 import { UrlInput } from "../components/form-input/url";
-import { NumberInput } from "../components/form-input/number";
+import NumberInput from "../components/form-input/number";
 import { toast, Toaster } from "react-hot-toast";
 
 interface Question {
@@ -24,7 +24,6 @@ export default function PublishPage() {
     []
   );
 
-  // Validate fields on submit
   const handleSubmit = () => {
     const missingFields = questions
       .filter(
@@ -103,10 +102,10 @@ export default function PublishPage() {
                       name={`select-${question.id}`}
                       checked={question.value === option.id}
                       onChange={() => handleInputChange(question.id, option.id)}
-                      className="mr-2 accent-[#00AA45]" // Custom color for the radio button
+                      className="mr-2 accent-[#00AA45]" 
                     />
                     <label htmlFor={option.id} className="text-gray-700">
-                      {option.text || "Option"} {/* Default to "Option" if text is empty */}
+                      {option.text || "Option"} 
                     </label>
                   </div>
                 ))}
@@ -114,17 +113,19 @@ export default function PublishPage() {
             );
           
 
-      case "date":
-        return (
-          <NumberInput
-            value={question.value as string}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleInputChange(question.id, e.target.value)
-            }
-            className="w-full focus:outline-none shadow-custom-light hover:shadow-custom-heavy border rounded-md p-2"
-            placeholder="MM-DD-YYYY"
-          />
-        );
+            case "date":
+              return (
+                <NumberInput
+                  type="date"
+                  value={question.value as string}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(question.id, e.target.value)
+                  }
+                  className="w-full focus:outline-none shadow-custom-light hover:shadow-custom-heavy border rounded-md p-2"
+                  placeholder="MM-DD-YYYY"
+                />
+              );
+            
       case "url":
         return (
           <UrlInput
