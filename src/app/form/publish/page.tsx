@@ -113,7 +113,8 @@ export default function PublishPage() {
             );
           
 
-            case "date":
+      case "date":
+
               return (
                 <NumberInput
                   type="date"
@@ -125,7 +126,7 @@ export default function PublishPage() {
                   placeholder="MM-DD-YYYY"
                 />
               );
-            
+
       case "url":
         return (
           <UrlInput
