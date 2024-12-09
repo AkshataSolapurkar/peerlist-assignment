@@ -86,7 +86,7 @@ export default function PublishPage() {
         return (
           <LongInput
             value={question.value as string}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: any) =>
               handleInputChange(question.id, e.target.value)
             }
             className="w-full border focus:outline-none shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"

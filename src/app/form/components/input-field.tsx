@@ -26,9 +26,9 @@ import { Plus } from 'lucide-react';
 interface FormQuestion {
   id: string;
   type: "short" | "long" | "select" | "date" | "url";
-  question: string;
   helpText: string;
   value: string | string[]; // Allows different types of values
+  question?: string;
   options?: { id: string; text: string }[]; // For select type questions
   onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -39,8 +39,8 @@ interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement | H
   className?: string;
   previewMode?: boolean;
   onQuestionTypeChange: (newType: string) => void;
-  onQuestionUpdate: (question: FormQuestion) => void;
-  initialData?: FormQuestion;
+  onQuestionUpdate: any;
+  initialData?: any;
 }
 
 export function InputField({

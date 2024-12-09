@@ -12,7 +12,7 @@ import { Plus, Type, AlignLeft, CircleDot, Link2, Hash, Calendar } from 'lucide-
 import { cn } from "@/lib/utils"
 
 interface QuestionTypeDropdownProps {
-  onSelect: (type: string) => void
+  onSelect: any;
   className?: string
 }
 
