@@ -152,9 +152,9 @@ export default function PublishPage() {
     questions.length > 0 ? (filledQuestions / questions.length) * 100 : 0;
 
   return (
-    <div className="h-screen bg-[#FFFFFF] text-black">
+    <div className="md:h-screen bg-[#FFFFFF] text-black">
       <div className="container border border-[#E1E4E8] mx-auto max-w-[640px]">
-        <div className="bg-white rounded-lg shadow-sm h-screen flex flex-col">
+        <div className="bg-white rounded-lg shadow-sm md:h-screen flex flex-col">
           {/* Header */}
           <div className="px-6 flex justify-between border-b w-full py-4">
             <div className="flex items-center w-full justify-between">

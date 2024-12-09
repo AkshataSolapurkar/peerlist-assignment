@@ -156,7 +156,7 @@ export default function Page() {
   return (
     <div className=" bg-[#FFFFFF]">
       <div className="container mx-auto border border-[#E1E4E8] max-w-[640px]">
-        <div className="bg-white rounded-lg overflow-hidden h-screen flex flex-col">
+        <div className="bg-white rounded-lg overflow-hidden md:h-screen flex flex-col">
           {/* Header */}
           <div className="px-6 flex justify-between items-center border-b w-full">
             <div className="w-full">
@@ -186,7 +186,7 @@ export default function Page() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 h-screen scrollbar-none overflow-y-auto px-6 py-6">
+          <div className="flex-1 md:h-screen scrollbar-none overflow-y-auto px-6 py-6">
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
