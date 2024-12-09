@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, MoreHorizontal, AlignLeft, Hash, Link2, List, Type, CircleDot, Calendar } from "lucide-react";
 import { ShortInput } from "./form-input/short";
 import { LongInput } from "./form-input/long";
-import { NumberInput } from "./form-input/number";
+import NumberInput from "./form-input/number";
 import { UrlInput } from "./form-input/url";
 import { SelectInput } from "./form-input/select";
 import { DragHandle } from "./DragHandle";
@@ -112,9 +112,10 @@ export function InputField({
           />
         );
       case "date":
-        return <NumberInput 
+        return <NumberInput
+          type="date" 
           value={value}
-          onChange={(e) => handleValueChange(e.target.value)}
+          onChange={(e:any) => handleValueChange(e.target.value)}
           {...props} 
         />;
       case "url":
