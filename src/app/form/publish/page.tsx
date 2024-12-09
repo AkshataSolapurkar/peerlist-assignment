@@ -154,7 +154,7 @@ export default function PublishPage() {
 
   return (
     <div className="md:h-screen h-full bg-[#FFFFFF] text-black">
-      <div className="container border border-[#E1E4E8] mx-auto max-w-[640px]">
+      <div className="container border-x border-[#E1E4E8] mx-auto max-w-[640px]">
         <div className="bg-white rounded-lg shadow-sm md:h-screen flex flex-col">
           {/* Header */}
           <div className="px-6 flex justify-between border-b w-full py-4">
