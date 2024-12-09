@@ -89,7 +89,7 @@ export default function PublishPage() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInputChange(question.id, e.target.value)
             }
-            className="w-full border  shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"
+            className="w-full border focus:outline-none shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"
           />
         );
         case "select":
@@ -121,7 +121,7 @@ export default function PublishPage() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInputChange(question.id, e.target.value)
             }
-            className="w-full shadow-custom-light hover:shadow-custom-heavy border rounded-md p-2"
+            className="w-full focus:outline-none shadow-custom-light hover:shadow-custom-heavy border rounded-md p-2"
             placeholder="MM-DD-YYYY"
           />
         );
@@ -132,7 +132,7 @@ export default function PublishPage() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInputChange(question.id, e.target.value)
             }
-            className="w-full border shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"
+            className="w-full border focus:outline-none shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"
           />
         );
       default:
@@ -142,7 +142,7 @@ export default function PublishPage() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleInputChange(question.id, e.target.value)
             }
-            className="w-full border  shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"
+            className="w-full border focus:outline-none shadow-custom-light hover:shadow-custom-heavy rounded-md p-2"
           />
         );
     }
@@ -153,15 +153,15 @@ export default function PublishPage() {
 
   return (
     <div className="h-screen bg-[#FFFFFF] text-black">
-      <div className="container mx-auto max-w-[640px]">
+      <div className="container border border-[#E1E4E8] mx-auto max-w-[640px]">
         <div className="bg-white rounded-lg shadow-sm h-screen flex flex-col">
           {/* Header */}
           <div className="px-6 flex justify-between border-b w-full py-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center w-full justify-between">
               <h1 className="text-[16px] font-semibold">{title}</h1>
             </div>
             {/* Progress Bar */}
-            <div>
+            <div className="w-full">
             <div className="text-[14px] font-normal text-right">Form completeness — {parseInt(progress.toString(), 10)}% </div>
             <div className="bg-gray-200 rounded-full h-1 w-full] mt-2">
               <div

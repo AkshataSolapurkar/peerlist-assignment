@@ -30,6 +30,7 @@ interface FormQuestion {
   helpText: string;
   value: string | string[]; // Allows different types of values
   options?: { id: string; text: string }[]; // For select type questions
+  onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {

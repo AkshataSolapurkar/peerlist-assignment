@@ -6,6 +6,7 @@ import { QuestionTypeDropdown } from "./components/drowpdown";
 import { InputField } from "./components/input-field";
 import { ArrowUpRight } from "lucide-react";
 import { SquarePen, Check } from "lucide-react";
+import { toast, Toaster } from "react-hot-toast";
 import {
   DndContext,
   closestCenter,
@@ -36,6 +37,10 @@ interface Question {
 export default function Page() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [title, setTitle] = useState<string>("");
+  const [unattemptedQuestions, setUnattemptedQuestions] = useState<string[]>(
+    []
+  );
+  
   const router = useRouter();
 
   const sensors = useSensors(
@@ -135,16 +140,14 @@ export default function Page() {
   const handlePublish = () => {
 
     if (title.trim() === "") {
-      alert("Please add a title to your form");
+      toast("Please add a title to your form");
       return;
     }
 
     if (questions.length === 0) {
-      alert("Please add at least one question to your form");
+      toast("Please add at least one question to your form");
       return;
     }
-
-
     router.push('/form/publish');
   };
 
