@@ -1,55 +1,87 @@
-import React, { useState } from 'react';
+"use client"
 
-import { usePathname } from 'next/navigation';
-import {Calendar} from "../../../../components/ui/calendar"
-import { Popover,PopoverTrigger,PopoverContent } from '@/components/ui/popover';
+import React, { useState, useEffect } from "react"
+import { format } from "date-fns"
+import { CalendarIcon } from 'lucide-react'
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
-interface NumberInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface NumberInputProps {
+  value: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  className?: string
+  placeholder?: string
+  type: "text" | "date"
 }
 
-export const NumberInput: React.FC<NumberInputProps> = (props) => {
-  const [hasContent, setHasContent] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const pathname = usePathname();
-  const isFormPage = pathname === '/form';
+const NumberInput: React.FC<NumberInputProps> = ({
+  value,
+  onChange,
+  className,
+  placeholder,
+  type,
+}) => {
+  const [date, setDate] = useState<Date | undefined>(undefined)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHasContent(e.target.value.length > 0);
-    if (props.onChange) props.onChange(e);
-  };
+  useEffect(() => {
+    if (type === "date" && value) {
+      setDate(new Date(value))
+    }
+  }, [type, value])
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate)
+    if (onChange && selectedDate) {
+      onChange({
+        target: { value: format(selectedDate, "MM-dd-yyyy") }
+      } as React.ChangeEvent<HTMLInputElement>)
+    }
+  }
+
+  if (type === "date") {
+    return (
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-full justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+              className
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "MM-dd-yyyy") : <span>{placeholder || "Pick a date"}</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleDateSelect}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+    )
+  }
 
   return (
-    <div className="relative w-full flex items-center">
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      className={className}
+      placeholder={placeholder}
+    />
+  )
+}
 
-      {isFormPage ? (
-        <input
-          type="text"
-          className="border w-full rounded px-2 py-1 disabled:bg-gray-100 disabled:cursor-not-allowed"
-          onChange={handleInputChange}
-          disabled={isFormPage}
-          {...props}
-        />
-      ) : (
-        <Popover>
-          <PopoverTrigger asChild>
-            <input
-              type="text"
-              className="border rounded w-full focus:outline-none px-2 py-1 cursor-pointer"
-              placeholder="MM-DD-YYYY"
-              value={selectedDate ? selectedDate.toLocaleDateString() : ''}
-              readOnly
-            />
-          </PopoverTrigger>
-          <PopoverContent align="start" className="p-2">
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={(date) => setSelectedDate(date)}
-            />
-          </PopoverContent>
-        </Popover>
-      )}
-    </div>
-  );
-};
+export default NumberInput
+
