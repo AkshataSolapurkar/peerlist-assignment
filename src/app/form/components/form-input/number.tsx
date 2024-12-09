@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { usePathname } from "next/navigation"
 
 interface NumberInputProps {
   value: string
@@ -28,7 +29,8 @@ const NumberInput: React.FC<NumberInputProps> = ({
   type,
 }) => {
   const [date, setDate] = useState<Date | undefined>(undefined)
-
+  const pathname = usePathname();
+  const isFormPage = pathname === '/form';
   useEffect(() => {
     if (type === "date" && value) {
       setDate(new Date(value))
@@ -55,6 +57,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
               !date && "text-muted-foreground",
               className
             )}
+            disabled={isFormPage}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date ? format(date, "MM-dd-yyyy") : <span>{placeholder || "Pick a date"}</span>}
@@ -79,6 +82,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
       onChange={onChange}
       className={className}
       placeholder={placeholder}
+      disabled={isFormPage}
     />
   )
 }
