@@ -152,7 +152,7 @@ export default function PublishPage() {
     questions.length > 0 ? (filledQuestions / questions.length) * 100 : 0;
 
   return (
-    <div className="md:h-screen bg-[#FFFFFF] text-black">
+    <div className="md:h-screen h-full bg-[#FFFFFF] text-black">
       <div className="container border border-[#E1E4E8] mx-auto max-w-[640px]">
         <div className="bg-white rounded-lg shadow-sm md:h-screen flex flex-col">
           {/* Header */}
@@ -174,7 +174,7 @@ export default function PublishPage() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 h-screen scrollbar-none overflow-y-auto p-6">
+          <div className="flex-1 md:h-screen h-full scrollbar-none overflow-y-auto p-6">
             {questions.length === 0 ? (
               <div className="text-center text-gray-500 mt-10">
                 No questions found. Please create a form first.
