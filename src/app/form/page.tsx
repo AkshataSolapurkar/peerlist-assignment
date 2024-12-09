@@ -155,7 +155,7 @@ export default function Page() {
 
   return (
     <div className=" bg-[#FFFFFF]">
-      <div className="container mx-auto border border-[#E1E4E8] max-w-[640px]">
+      <div className="container mx-auto border h-screen border-[#E1E4E8] max-w-[640px]">
         <div className="bg-white rounded-lg overflow-hidden h-full md:h-screen flex flex-col">
           {/* Header */}
           <div className="px-6 flex justify-between items-center border-b w-full">
