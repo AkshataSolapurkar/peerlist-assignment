@@ -115,16 +115,17 @@ export default function PublishPage() {
           
 
       case "date":
-        return (
-          <NumberInput
-            value={question.value as string}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleInputChange(question.id, e.target.value)
-            }
-            className="w-full focus:outline-none shadow-custom-light hover:shadow-custom-heavy border rounded-md p-2"
-            placeholder="MM-DD-YYYY"
-          />
-        );
+              return (
+                <NumberInput
+                  type="date"
+                  value={question.value as string}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(question.id, e.target.value)
+                  }
+                  className="w-full focus:outline-none shadow-custom-light hover:shadow-custom-heavy border rounded-md p-2"
+                  placeholder="MM-DD-YYYY"
+                />
+              );
       case "url":
         return (
           <UrlInput
